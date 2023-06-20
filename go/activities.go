@@ -1,8 +1,9 @@
 package starter
 
 import (
+	"errors"
 	"fmt"
-	"go.temporal.io/sdk/temporal"
+	//"go.temporal.io/sdk/temporal"
 )
 
 type Activities struct{}
@@ -14,13 +15,13 @@ var (
 func (a *Activities) BuggyActivity() (string, error) {
 
 	if HAS_BUG {
-		return "oops", temporal.NewApplicationError("oops, found a bug", "Error")
+		return "oops", errors.New("oops error. Hard to fix. Be warned.")
 	} else {
 		return "Hello, World!", nil
 	}
 }
 
 func (a *Activities) NormalActivity(greeting string, name string) (string, error) {
-	fmt.Println("Running 'NormalActivity' with params, '" + greeting + "' and '" + name + "'")
+	fmt.Println("--> Running 'NormalActivity' with params, '" + greeting + "' and '" + name + "'")
 	return greeting + " " + name + "!", nil
 }

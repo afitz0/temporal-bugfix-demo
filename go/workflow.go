@@ -26,29 +26,33 @@ func Workflow(ctx workflow.Context, greeting string, name string) (string, error
 	var a *Activities
 
 	var result string
-	err := workflow.ExecuteActivity(ctx, a.NormalActivity, "First", "Time").Get(ctx, &result)
+
+	// ------------- Step 1 ------------- //
+	err := workflow.ExecuteActivity(ctx,
+		a.NormalActivity, "Nonbuggy", "First Time").Get(ctx, &result)
 	if err != nil {
 		logger.Error("Activity failed.", "Error", err)
 		return "", err
 	}
+	fmt.Println("[Workflow] Result from first step:", result)
 
-	fmt.Println("Result from first activity:", result)
-
-	err = workflow.ExecuteActivity(ctx, a.BuggyActivity).Get(ctx, &result)
+	// ------------- Step 2 ------------- //
+	err = workflow.ExecuteActivity(ctx,
+		a.BuggyActivity).Get(ctx, &result)
 	if err != nil {
 		logger.Error("Activity failed.", "Error", err)
 		return "", err
 	}
+	fmt.Println("[Workflow] Result from second step:", result)
 
-	fmt.Println("Result from second activity:", result)
-
-	err = workflow.ExecuteActivity(ctx, a.NormalActivity, "Second", "Time").Get(ctx, &result)
+	// ------------- Step 3 ------------- //
+	err = workflow.ExecuteActivity(ctx,
+		a.NormalActivity, "Nonbuggy", "Second Time").Get(ctx, &result)
 	if err != nil {
 		logger.Error("Activity failed.", "Error", err)
 		return "", err
 	}
-
-	fmt.Println("Result from third activity:", result)
+	fmt.Println("[Workflow] Result from third step:", result)
 
 	logger.Info("Starter workflow completed.", "result", result)
 	return result, nil
