@@ -82,7 +82,7 @@ func (log *ZapAdapter) With(keyvals ...interface{}) log.Logger {
 	return &ZapAdapter{zl: log.zl.With(log.fields(keyvals)...)}
 }
 
-func NewZapLogger() *zap.Logger {
+func NewZapLogger(level zapcore.Level) *zap.Logger {
 	encodeConfig := zapcore.EncoderConfig{
 		TimeKey:        "ts",
 		LevelKey:       "level",
@@ -98,8 +98,7 @@ func NewZapLogger() *zap.Logger {
 	}
 
 	config := zap.Config{
-		//Level: zap.NewAtomicLevelAt(zap.DebugLevel),
-		Level:            zap.NewAtomicLevelAt(zap.FatalLevel),
+		Level:            zap.NewAtomicLevelAt(level),
 		Development:      false,
 		Sampling:         nil,
 		Encoding:         "console",

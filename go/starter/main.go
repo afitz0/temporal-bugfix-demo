@@ -7,22 +7,18 @@ import (
 	"go.temporal.io/sdk/client"
 
 	"starter"
-	"starter/zapadapter"
 )
 
 func main() {
-	c, err := client.NewLazyClient(client.Options{
-		Logger: zapadapter.NewZapAdapter(
-			zapadapter.NewZapLogger()),
-	})
+	c, err := client.Dial(client.Options{})
 	if err != nil {
 		log.Fatalln("Unable to create client", err)
 	}
 	defer c.Close()
 
 	workflowOptions := client.StartWorkflowOptions{
-		ID:        "temporal-starter-workflow",
-		TaskQueue: "temporal-starter",
+		ID:        "demo-workflow",
+		TaskQueue: "demo",
 	}
 
 	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, starter.Workflow, "Hello", "World")
@@ -32,11 +28,11 @@ func main() {
 
 	log.Println("Started workflow", "WorkflowID", we.GetID(), "RunID", we.GetRunID())
 
-	// Synchronously wait for the workflow completion.
-	var result string
-	err = we.Get(context.Background(), &result)
-	if err != nil {
-		log.Fatalln("Unable get workflow result", err)
-	}
-	log.Println("Workflow result:", result)
+	// [optionally] Synchronously wait for the workflow completion.
+	//	var result string
+	//	err = we.Get(context.Background(), &result)
+	//	if err != nil {
+	//		log.Fatalln("Unable get workflow result", err)
+	//	}
+	//	log.Println("Workflow result:", result)
 }
