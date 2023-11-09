@@ -13,7 +13,7 @@ func (a *Activities) StepOne(input string) (string, error) {
 }
 
 func (a *Activities) StepTwo(input string) (string, error) {
-	hasBug := false
+	hasBug := true
 
 	if hasBug {
 		return "oops", errors.New("oops error. Hard to fix. Be warned.")
