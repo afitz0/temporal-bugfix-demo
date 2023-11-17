@@ -1,7 +1,9 @@
-import { NativeConnection, Worker } from '@temporalio/worker';
+import { DefaultLogger, NativeConnection, Worker, Runtime } from '@temporalio/worker';
 import * as activities from './activities';
 
 async function run() {
+  Runtime.install({ logger: new DefaultLogger('WARN') });
+
   const connection = await NativeConnection.connect({
     address: 'localhost:7233',
   });

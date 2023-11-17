@@ -15,7 +15,7 @@ async function run() {
     workflowId: 'workflow-' + nanoid(),
   });
   console.log(`Started workflow ${handle.workflowId}.`);
-  console.log(`Visit http://localhost:8233/namespaces/default/${handle.workflowId}`);
+  console.log(`Visit http://localhost:8233/namespaces/default/workflows/${handle.workflowId}`);
 
   // optional: wait for client result
   //console.log(await handle.result());
